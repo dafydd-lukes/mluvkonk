@@ -57,7 +57,8 @@ concLine2Html <- function(conc_row) {
   num_speakers <- length(speakers)
   num_cells <- length(collapse_adjacent(attrs["prekryv", ], only = "ano"))
   table <- matrix(nrow = num_speakers, ncol = num_cells)
-  row.names(table) <- speakers
+  # name table rows according to speaker numbers (sorted)
+  row.names(table) <- sort(speakers)
   nodes <- XML::xmlChildren(root)
 
   prev_prekryv <- "N/A"
