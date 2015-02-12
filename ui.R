@@ -1,3 +1,5 @@
+require(markdown)
+
 shinyUI(fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "mluvkonk.css")
