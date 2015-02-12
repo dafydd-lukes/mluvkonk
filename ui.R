@@ -17,8 +17,8 @@ shinyUI(fluidPage(
                          )
                ),
                uiOutput("pager"),
-               numericInput("rows_per_page", "Počet výsledků na stránku:", 25,
-                            min = 1, max = 100)
+               sliderInput("rows_per_page", "Počet výsledků na stránku:", 25,
+                           min = 1, max = 100)
              ),
              withTags(span("Zdrojový soubor konkordance: ",
                            code(textOutput("name", inline = TRUE)))),

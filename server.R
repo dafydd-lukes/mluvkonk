@@ -17,7 +17,6 @@ prep_conc <- function(conc, input) {
   if (is.null(page)) return()
   rows_per_page <- rows_per_page(input)
   rows <- ((page - 1) * rows_per_page + 1) : min((page * rows_per_page), nrow(conc))
-  print(rows)
   conc <- conc[rows, ]
   conc$row <- vapply(paste(conc$lc,
                            '<span class=kwic>',
