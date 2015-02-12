@@ -8,5 +8,10 @@ table table tr:hover {
 }
 
 span.kwic {
-    color: red;
-};
+    color: #e2007a;
+    font-weight: bold;
+}
+
+div.wrap-text {
+    max-width: 40em;
+}

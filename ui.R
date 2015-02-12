@@ -23,6 +23,9 @@ shinyUI(fluidPage(
     ),
 
     tabPanel("Nápověda",
-             shiny::includeMarkdown("README.md"))
+             tags$div(class = "wrap-text",
+                      shiny::includeMarkdown("README.md")
+             )
+    )
   )
 ))
