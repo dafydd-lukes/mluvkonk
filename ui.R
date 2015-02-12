@@ -19,6 +19,8 @@ shinyUI(fluidPage(
                uiOutput("pager"),
                tags$label("Zobrazuje se 25 výsledků na stránku.")
              ),
+             withTags(span("Zdrojový soubor konkordance: ",
+                           code(textOutput("name", inline = TRUE)))),
              tableOutput("konk")
     ),
 

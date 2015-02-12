@@ -21,14 +21,16 @@ shinyServer(function(input, output) {
 #     print(input$csv)
     if (is.null(input$csv)) {
       csv <- "demo.csv"
+      name <- csv
     } else {
       csv <- input$csv$datapath
+      name <- input$csv$name
     }
     conc <- read.csv2(csv, header = FALSE, stringsAsFactors = FALSE)
     names(conc) <- c("meta", "lc", "kwic", "rc")
     conc$row <- NA
     npages <- (nrow(conc) + rows_per_page - 1) %/% rows_per_page
-    list(conc = conc, npages = npages, name = csv)
+    list(conc = conc, npages = npages, name = name)
   })
 
   output$pager <- renderUI({
@@ -38,4 +40,6 @@ shinyServer(function(input, output) {
   output$konk <- renderTable(prep_conc(data()$conc, input$page),
                              sanitize.text.function = identity,
                              include.colnames = FALSE)
+
+  output$name <- renderText(data()$name)
 })
