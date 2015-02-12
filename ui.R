@@ -23,6 +23,6 @@ shinyUI(fluidPage(
     ),
 
     tabPanel("Nápověda",
-             shiny::includeMarkdown("www/help.md"))
+             shiny::includeMarkdown("README.md"))
   )
 ))
