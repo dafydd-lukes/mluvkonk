@@ -10,14 +10,15 @@ shinyUI(fluidPage(
   tabsetPanel(
     tabPanel("Konkordance",
              inputPanel(
-               fileInput('csv', 'Nahrát vlastní konkordanci',
+               fileInput('csv', 'Nahrát vlastní konkordanci:',
                          accept = c(
                            'text/csv',
                            'text/comma-separated-values'
                          )
                ),
                uiOutput("pager"),
-               tags$label("Zobrazuje se 25 výsledků na stránku.")
+               numericInput("rows_per_page", "Počet výsledků na stránku:", 25,
+                            min = 1, max = 100)
              ),
              withTags(span("Zdrojový soubor konkordance: ",
                            code(textOutput("name", inline = TRUE)))),
