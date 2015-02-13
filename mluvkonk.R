@@ -1,14 +1,17 @@
-adjacent2na <- function(only = c(), max = 2) {
+adjacent2na <- function(only = c(), max) {
   prev <- NA
   count <- 1
 
   function(curr) {
+#     print(prev)
+#     print(count)
     if (is.na(curr)) {
       stop("adjacent2na uses NA values in a special way.
   Please remove them before proceeding.")
     } else if (count == max) {
     # if count of repeated instances has reached max, start over as if there was
     # no preceding item (greedy approach)
+      prev <<- curr # don't forget this!!!
       count <<- 1
       return(curr)
     } else if (is.na(prev)) {
@@ -28,11 +31,11 @@ adjacent2na <- function(only = c(), max = 2) {
   }
 }
 
-collapse_adjacent <- function(vector, only = c()) {
+collapse_adjacent <- function(vector, only = c(), max = 2) {
   # this should be vapply, but I can't for the love of God figure out how to
   # allow NAs in the output
-  vector <- sapply(vector, adjacent2na(only))#, vector[1])
-  vector[!is.na(vector)]
+  vector <- sapply(vector, adjacent2na(only, max))#, vector[1])
+  vector # [!is.na(vector)]
 }
 
 # whitespace <- function(string) {
@@ -41,6 +44,7 @@ collapse_adjacent <- function(vector, only = c()) {
 # }
 
 concLine2Html <- function(conc_row) {
+#   print(conc_row)
   # wrap attr values with quotes
   conc_row <- gsub("=([^ >]*)", '="\\1"', conc_row)
   # if the row does not start with a <sp> tag, add one; its prekryv value is
@@ -66,11 +70,13 @@ concLine2Html <- function(conc_row) {
 #   return(attrs)
   speakers <- unique(attrs["num", ])
   num_speakers <- length(speakers)
+#   return(collapse_adjacent(attrs["prekryv", ], only = "ano"))
   num_cells <- length(collapse_adjacent(attrs["prekryv", ], only = "ano"))
   table <- matrix(nrow = num_speakers, ncol = num_cells)
   # name table rows according to speaker numbers (sorted)
   row.names(table) <- sort(speakers)
   nodes <- XML::xmlChildren(root)
+#   print(table)
 
   # only two adjacent <sp prekryv=ano/> can belong to the same prekryv
   count_prekryv <- 0
