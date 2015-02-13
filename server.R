@@ -52,9 +52,14 @@ shinyServer(function(input, output) {
     list(conc = conc, npages = npages, name = name)
   })
 
+  # this can be done more easily (?) using updateSliderInput
   output$pager <- renderUI({
-    sliderInput("page", "Vybrat stránku:", min = 1, max = data()$npages,
-                value = 1, step = 1)
+    npages <- (data()$npages)
+    if (npages > 1)
+      sliderInput("page", "Vybrat stránku:", min = 1, max = npages,
+                  value = 1, step = 1)
+    else
+      tags$label("Počet stran: 1.")
   })
 
   output$konk <- renderTable(prep_conc(data()$conc, input),
