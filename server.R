@@ -2,9 +2,9 @@ require(shiny)
 source("mluvkonk.R")
 
 # conc <- read.csv2("demo.csv", header = FALSE, stringsAsFactors = FALSE)
-conc <- read.csv2("topoparo.csv", header = FALSE, stringsAsFactors = FALSE)
-names(conc) <- c("meta", "lc", "kwic", "rc")
-inp <- list(page = 2, rows_per_page = 10)
+# conc <- read.csv2("topoparo.csv", header = FALSE, stringsAsFactors = FALSE)
+# names(conc) <- c("meta", "lc", "kwic", "rc")
+# inp <- list(page = 2, rows_per_page = 10)
 
 rows_per_page <- function(input) {
   rpp <- input$rows_per_page

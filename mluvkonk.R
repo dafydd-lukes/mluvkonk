@@ -1,19 +1,23 @@
-adjacent2na <- function(only = c()) {
+adjacent2na <- function(only = c(), max = 2) {
   prev <- NA
+  count <- 1
 
   function(curr) {
     if (is.na(curr)) {
       stop("adjacent2na uses NA values in a special way.
   Please remove them before proceeding.")
-    }
-    if (is.na(prev)) {
+    } else if (count == max) {
+    # if count of repeated instances has reached max, start over as if there was
+    # no preceding item (greedy approach)
+      count <<- 1
+      return(curr)
+    } else if (is.na(prev)) {
       prev <<- curr
       return(curr)
     } else if (curr == prev) {
       prev <<- curr
-      if (curr %in% only)
-        return(NA)
-      else if (length(only) == 0)
+      count <<- count + 1
+      if (length(only) == 0 || curr %in% only)
         return(NA)
       else
         return(curr)
@@ -39,8 +43,15 @@ collapse_adjacent <- function(vector, only = c()) {
 concLine2Html <- function(conc_row) {
   # wrap attr values with quotes
   conc_row <- gsub("=([^ >]*)", '="\\1"', conc_row)
-  # if the row does not start with a <sp> tag, add one
-  if (!grepl("^<sp", conc_row)) conc_row <- paste0('<sp num="??" prekryv="N/A">', conc_row)
+  # if the row does not start with a <sp> tag, add one; its prekryv value is
+  # determined by whether the lc starts with an odd number of adjacent
+  # 'prekryv=ano' (→ 'prekryv=ano') or not
+  lc_start <- sub('(.*?)prekryv="ne".*', "\\1", conc_row)
+  if ((stringr::str_count(lc_start, 'prekryv="ano"') %% 2) == 0)
+    first_sp <- '<sp num="??" prekryv="N/A">'
+  else
+    first_sp <- '<sp num="??" prekryv="ano">'
+  if (!grepl("^<sp", conc_row)) conc_row <- paste0(first_sp, conc_row)
   # if the row does not end with a </sp> tag, add one
   if (!grepl("</sp>$", conc_row)) conc_row <- paste0(conc_row, '</sp>')
   # remove any potential <seg> and <doc> tags
@@ -61,18 +72,28 @@ concLine2Html <- function(conc_row) {
   row.names(table) <- sort(speakers)
   nodes <- XML::xmlChildren(root)
 
-  prev_prekryv <- "N/A"
+  # only two adjacent <sp prekryv=ano/> can belong to the same prekryv
+  count_prekryv <- 0
   col <- 0
   for (i in seq_along(nodes)) {
     node <- nodes[[i]]
     attrs <- XML::xmlAttrs(node)
-    if (prev_prekryv != "ano" || attrs["prekryv"] != "ano") {
+#     print(attrs)
+#     print(count_prekryv)
+    if (attrs["prekryv"] != "ano") {
       col <- col + 1
-      prev_prekryv <- attrs["prekryv"]
+    } else if (count_prekryv == 0) {
+      # if we're in <sp prekryv=ano/> but count_prekryv == 0, we also need to
+      # increment col, otherwise we would overlap with the preceding <sp
+      # prekryv=ne/>
+      col <- col + 1
+      count_prekryv <- (count_prekryv + 1) %% 2
     } else {
-      prev_prekryv <- attrs["prekryv"]
+      count_prekryv <- (count_prekryv + 1) %% 2
     }
-#     table[attrs["num"], col] <- XML::xmlValue(node, trim = TRUE)
+#     print(attrs["num"])
+#     print(col)
+#     print(node)
     table[attrs["num"], col] <- XML::toString.XMLNode(node)
   }
 
