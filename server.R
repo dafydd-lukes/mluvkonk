@@ -1,7 +1,10 @@
+require(shiny)
 source("mluvkonk.R")
 
 # conc <- read.csv2("demo.csv", header = FALSE, stringsAsFactors = FALSE)
-# names(conc) <- c("meta", "lc", "kwic", "rc")
+conc <- read.csv2("topoparo.csv", header = FALSE, stringsAsFactors = FALSE)
+names(conc) <- c("meta", "lc", "kwic", "rc")
+inp <- list(page = 2, rows_per_page = 10)
 
 rows_per_page <- function(input) {
   rpp <- input$rows_per_page
@@ -12,17 +15,21 @@ rows_per_page <- function(input) {
   }
 }
 
+pasteConcLine <- function(conc) {
+  paste(conc$lc,
+        '<span class=kwic>',
+        conc$kwic,
+        '</span>',
+        conc$rc)
+}
+
 prep_conc <- function(conc, input) {
   page <- input$page
   if (is.null(page)) return()
   rows_per_page <- rows_per_page(input)
   rows <- ((page - 1) * rows_per_page + 1) : min((page * rows_per_page), nrow(conc))
   conc <- conc[rows, ]
-  conc$row <- vapply(paste(conc$lc,
-                           '<span class=kwic>',
-                           conc$kwic,
-                           '</span>',
-                           conc$rc),
+  conc$row <- vapply(pasteConcLine(conc),
                      concLine2Html, character(1))
   conc[, c("meta", "row")]
 }
