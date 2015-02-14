@@ -1,7 +1,7 @@
 require(shiny)
 require(tidyr)
-require(dplyr)
 require(stringr)
+require(ggvis)
 source("mluvkonk.R")
 
 # conc <- read.csv2("demo.csv", header = FALSE, stringsAsFactors = FALSE)
