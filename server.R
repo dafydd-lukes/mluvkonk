@@ -19,12 +19,13 @@ bar_tooltip <- function(bar) {
   paste(c(start, count), collapse = "<br/>")
 }
 
-rows_per_page <- function(input) {
+determine_rpp <- function(input, conc) {
   rpp <- input$rows_per_page
+  len <- nrow(conc)
   if (is.na(rpp)) {
-    return(25)
+    return(min(25, len))
   } else {
-    return(rpp)
+    return(min(rpp, len))
   }
 }
 
@@ -39,8 +40,11 @@ pasteConcLine <- function(conc) {
 prep_conc <- function(conc, input) {
   page <- input$page
   if (is.null(page)) return()
-  rows_per_page <- rows_per_page(input)
-  rows <- ((page - 1) * rows_per_page + 1) : min((page * rows_per_page), nrow(conc))
+  rows_per_page <- determine_rpp(input, conc)
+  conc_len <- nrow(conc)
+  start_index <- (page - 1) * rows_per_page + 1
+  start_index <- if (start_index >= conc_len) 1 else start_index
+  rows <- start_index : min((page * rows_per_page), conc_len)
   conc <- conc[rows, ]
   conc$row <- vapply(pasteConcLine(conc),
                      concLine2Html, character(1))
@@ -50,8 +54,6 @@ prep_conc <- function(conc, input) {
 shinyServer(function(input, output, session) {
 
   data <- reactive({
-    rows_per_page <- rows_per_page(input)
-
     if (is.null(input$csv)) {
       csv <- "demo.csv"
       name <- csv
@@ -63,6 +65,8 @@ shinyServer(function(input, output, session) {
     conc <- read.csv2(csv, header = FALSE, stringsAsFactors = FALSE)
     names(conc) <- c("meta", "lc", "kwic", "rc")
     conc$row <- NA
+    rows_per_page <- determine_rpp(input, conc)
+
     meta_names <- paste0("typ: ", str_split(conc$meta[1], ",")[[1]], ", ...")
     # use letters as proxy colnames for the more descriptive meta_names, which
     # work in funky ways when selecting columns using dplyr
