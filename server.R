@@ -1,10 +1,23 @@
 require(shiny)
+require(tidyr)
+require(dplyr)
+require(stringr)
 source("mluvkonk.R")
 
 # conc <- read.csv2("demo.csv", header = FALSE, stringsAsFactors = FALSE)
 # conc <- read.csv2("topoparo.csv", header = FALSE, stringsAsFactors = FALSE)
 # names(conc) <- c("meta", "lc", "kwic", "rc")
 # inp <- list(page = 2, rows_per_page = 10)
+
+meta2colname <- function(name, names) as.name(letters[grep(name, names)])
+
+bar_tooltip <- function(bar) {
+  last <- length(bar)
+  second_to_last <- last - 1
+  count <- paste("frekvence: ", bar[last] - bar[second_to_last])
+  start <- bar[-c(last, second_to_last)]
+  paste(c(start, count), collapse = "<br/>")
+}
 
 rows_per_page <- function(input) {
   rpp <- input$rows_per_page
@@ -34,10 +47,11 @@ prep_conc <- function(conc, input) {
   conc[, c("meta", "row")]
 }
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
 
   data <- reactive({
     rows_per_page <- rows_per_page(input)
+
     if (is.null(input$csv)) {
       csv <- "demo.csv"
       name <- csv
@@ -45,14 +59,25 @@ shinyServer(function(input, output) {
       csv <- input$csv$datapath
       name <- input$csv$name
     }
+
     conc <- read.csv2(csv, header = FALSE, stringsAsFactors = FALSE)
     names(conc) <- c("meta", "lc", "kwic", "rc")
     conc$row <- NA
+    meta_names <- paste0("typ: ", str_split(conc$meta[1], ",")[[1]], ", ...")
+    # use letters as proxy colnames for the more descriptive meta_names, which
+    # work in funky ways when selecting columns using dplyr
+    conc <- separate_(conc, "meta", letters[1:length(meta_names)], ",",
+                      remove = FALSE)
     npages <- (nrow(conc) + rows_per_page - 1) %/% rows_per_page
-    list(conc = conc, npages = npages, name = name)
+
+    updateSelectInput(session, "freq_meta_type_select",
+                      choices = meta_names)
+
+    list(conc = conc, npages = npages, name = name, meta = meta_names)
   })
 
-  # this can be done more easily (?) using updateSliderInput
+  # this can be done more easily using updateSliderInput, unless freeform logic
+  # (as in this case) is required (?)
   output$pager <- renderUI({
     npages <- (data()$npages)
     if (npages > 1)
@@ -67,4 +92,18 @@ shinyServer(function(input, output) {
                              include.colnames = FALSE)
 
   output$name <- renderText(data()$name)
+
+  reactive({
+    conc <- data()$conc
+    meta <- input$freq_meta_type_select
+    meta_names <- data()$meta
+    col <- meta2colname(if (meta != "") meta else meta_names[1], meta_names)
+    kwic <- if (input$by_kwic_variants) as.name("kwic") else ""
+    title <- paste0("Skupiny podle metainformací (", meta, ")")
+    ggvis(conc, prop("x", col), fill = prop("fill", kwic)) %>%
+      layer_bars() %>%
+      add_tooltip(bar_tooltip, on = "hover") %>%
+      add_axis("x", title = title) %>%
+      add_axis("y", title = "Absolutní frekvence")
+  }) %>% bind_shiny("freq")
 })

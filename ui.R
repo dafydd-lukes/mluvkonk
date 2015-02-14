@@ -1,4 +1,5 @@
 require(markdown)
+require(ggvis)
 
 shinyUI(fluidPage(
   tags$head(
@@ -20,14 +21,31 @@ shinyUI(fluidPage(
                sliderInput("rows_per_page", "Počet výsledků na stránku:", 25,
                            min = 1, max = 100)
              ),
-             withTags(span("Zdrojový soubor konkordance: ",
-                           code(textOutput("name", inline = TRUE)))),
+             span("Zdrojový soubor konkordance: ",
+                  code(textOutput("name", inline = TRUE))),
              tableOutput("konk")
     ),
 
+    tabPanel("Statistika",
+             br(),
+             sidebarLayout(
+               sidebarPanel(
+                 selectInput("freq_meta_type_select", "Typ metainformací:",
+                             choices = c()),
+                 checkboxInput("by_kwic_variants",
+                               "Rozdělit podle variant KWIC")
+               ),
+               mainPanel(
+                 h1("Frekvenční distribuce"),
+                 ggvisOutput("freq")
+               )
+             )
+    ),
+
     tabPanel("Nápověda",
-             tags$div(class = "wrap-text",
-                      shiny::includeMarkdown("README.md")
+             br(),
+             div(class = "wrap-text",
+                 shiny::includeMarkdown("README.md")
              )
     )
   )
