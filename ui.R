@@ -6,6 +6,8 @@ shinyUI(fluidPage(
     tags$link(rel = "stylesheet", type = "text/css", href = "mluvkonk.css")
   ),
 
+  includeHTML("www/forkme.html"),
+
   titlePanel("MluvKonk"),
 
   tabsetPanel(
