@@ -53,6 +53,7 @@ prep_conc <- function(conc, input) {
 
 shinyServer(function(input, output, session) {
 
+  # stuff that gets done / updated when new data is loaded
   data <- reactive({
     if (is.null(input$csv)) {
       csv <- "demo.csv"
@@ -97,6 +98,7 @@ shinyServer(function(input, output, session) {
 
   output$name <- renderText(data()$name)
 
+  # = output$freq (the freq dist chart)
   reactive({
     conc <- data()$conc
     meta <- input$freq_meta_type_select
