@@ -9,7 +9,7 @@ source("mluvkonk.R")
 # conc <- read.csv2("prekryvy.csv", header = FALSE, stringsAsFactors = FALSE)
 # names(conc) <- c("meta", "lc", "kwic", "rc")
 # inp <- list(page = 2, rows_per_page = 10)
-# prep_conc(conc, inp)
+# bar <- prep_conc(conc, inp)
 
 meta2colname <- function(name, names) as.name(letters[grep(name, names)])
 

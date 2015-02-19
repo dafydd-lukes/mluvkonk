@@ -60,6 +60,8 @@ concLine2Html <- function(conc_row) {
   if (!grepl("</sp>$", conc_row)) conc_row <- paste0(conc_row, '</sp>')
   # remove any potential <seg> and <doc> tags
   conc_row <- gsub("</?(doc|seg)[^>]*>", "", conc_row)
+#   cat(conc_row)
+#   cat("\n\n")
   # add a root node
   conc_row <- paste0("<root>", conc_row, "</root>")
   root <- tryCatch(
@@ -92,6 +94,7 @@ concLine2Html <- function(conc_row) {
 #     print(count_prekryv)
     if (attrs["prekryv"] != "ano") {
       col <- col + 1
+      count_prekryv <- 0
     } else if (count_prekryv == 0) {
       # if we're in <sp prekryv=ano/> but count_prekryv == 0, we also need to
       # increment col, otherwise we would overlap with the preceding <sp
