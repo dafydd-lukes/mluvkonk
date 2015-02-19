@@ -7,6 +7,10 @@ table table tr:hover {
     background-color: #f5f5f5;
 }
 
+table table td:hover {
+    outline: 1px dotted gray;
+}
+
 span.kwic {
     color: #e2007a;
     font-weight: bold;
