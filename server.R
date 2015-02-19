@@ -4,10 +4,12 @@ require(stringr)
 require(ggvis)
 source("mluvkonk.R")
 
+## FOR INTERACTIVE TESTING:
 # conc <- read.csv2("demo.csv", header = FALSE, stringsAsFactors = FALSE)
-# conc <- read.csv2("topoparo.csv", header = FALSE, stringsAsFactors = FALSE)
+# conc <- read.csv2("prekryvy.csv", header = FALSE, stringsAsFactors = FALSE)
 # names(conc) <- c("meta", "lc", "kwic", "rc")
 # inp <- list(page = 2, rows_per_page = 10)
+# prep_conc(conc, inp)
 
 meta2colname <- function(name, names) as.name(letters[grep(name, names)])
 
@@ -29,11 +31,21 @@ determine_rpp <- function(input, conc) {
   }
 }
 
+highlight_kwic <- Vectorize(function(kwic_segment) {
+  # wrap inner "</sp><sp ...>" sequences with </span> ... <span>"; NOTE: the
+  # class attribute is NOT wrapped with quotes, because the other attributes as
+  # exported from KonText aren't either at this point; concLine2Html takes care
+  # of this
+  kwic_segment <- gsub("(</.*?><.*?>)",
+                       "</span>\\1<span class=kwic>",
+                       kwic_segment)
+  # add outer "<span> ... </span>"
+  paste("<span class=kwic>", kwic_segment, "</span>", sep = "")
+})
+
 pasteConcLine <- function(conc) {
   paste(conc$lc,
-        '<span class=kwic>',
-        conc$kwic,
-        '</span>',
+        highlight_kwic(conc$kwic),
         conc$rc)
 }
 
