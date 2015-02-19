@@ -114,6 +114,7 @@ concLine2Html <- function(conc_row) {
   paste(capture.output(print(xtable::xtable(table), type = "html",
                              include.colnames = FALSE,
                              sanitize.text.function = identity,
-                             html.table.attributes = "")),
+                             html.table.attributes = "",
+                             comment = FALSE)),
         collapse = "\n")
 }
