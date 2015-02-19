@@ -62,9 +62,13 @@ concLine2Html <- function(conc_row) {
   conc_row <- gsub("</?(doc|seg)[^>]*>", "", conc_row)
   # add a root node
   conc_row <- paste0("<root>", conc_row, "</root>")
-#   cat("\n\n")
-#   cat(conc_row)
-  root <- XML::xmlRoot(XML::xmlParse(conc_row, asText = TRUE))
+  root <- tryCatch(
+    XML::xmlRoot(XML::xmlParse(conc_row, asText = TRUE)),
+    error = function(e) {
+      stop(paste(e, "The XML parser failed on this row:", conc_row,
+                 sep = "\n\n"))
+    }
+  )
 #   return(root)
   attrs <- XML::xmlSApply(root, XML::xmlAttrs)
 #   return(attrs)
