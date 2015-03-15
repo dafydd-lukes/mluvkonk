@@ -3,8 +3,6 @@ adjacent2na <- function(only = c(), max) {
   count <- 1
 
   function(curr) {
-#     print(prev)
-#     print(count)
     if (is.na(curr)) {
       stop("adjacent2na uses NA values in a special way.
   Please remove them before proceeding.")
