@@ -92,4 +92,4 @@ purpose is to turn this...
 Unless you speak Czech and/or do research on Czech (in which case, the Czech
 instructions are right [here](#navod)), it is unlikely to be of much use to you.
 If you're interested in the [Shiny](http://shiny.rstudio.com/) side of things
-though, [drop me a line on github](https://github.com/dafydd-lukes/)!
+though, [drop me a line on github](https://github.com/dlukes/)!
