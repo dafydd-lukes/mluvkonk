@@ -1,5 +1,5 @@
 Skip [here](#english) for English. If reading this on github, the app is live
-[here](http://trost.korpus.cz/~lukes/mluvkonk).
+[here](http://trost.korpus.cz/shiny/lukes/mluvkonk).
 
 # Shrnutí
 
