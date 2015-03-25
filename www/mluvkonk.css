@@ -11,6 +11,17 @@ table table td:hover {
     outline: 1px dotted gray;
 }
 
+table.data {
+  width: 100%;
+  margin-bottom: 0px;
+}
+
+#konk {
+  overflow-x: auto;
+  box-shadow: inset -25px -1px 25px -20px #ccc;
+  margin-bottom: 20px;
+}
+
 span.kwic {
     color: #e2007a;
     font-weight: bold;
@@ -18,9 +29,4 @@ span.kwic {
 
 div.wrap-text {
     max-width: 40em;
-}
-
-#konk {
-  overflow-x: auto;
-  box-shadow: inset -5px -3px 5px 2px #ccc;
 }
