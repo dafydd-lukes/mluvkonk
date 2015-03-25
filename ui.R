@@ -3,7 +3,8 @@ require(ggvis)
 
 shinyUI(fluidPage(
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "mluvkonk.css")
+    tags$link(rel = "stylesheet", type = "text/css", href = "mluvkonk.css"),
+    tags$link(rel = "shortcut icon", href = "favicon.ico")
   ),
 
   includeHTML("www/forkme.html"),
