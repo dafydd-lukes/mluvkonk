@@ -121,7 +121,11 @@ shinyServer(function(input, output, session) {
     ggvis(conc, prop("x", col), fill = prop("fill", kwic)) %>%
       layer_bars() %>%
       add_tooltip(bar_tooltip, on = "hover") %>%
-      add_axis("x", title = title) %>%
-      add_axis("y", title = "Absolutní frekvence")
+      add_axis("x", title = title,
+               title_offset = 100,
+               properties = axis_props(
+                 labels = list(angle = 45, align = "left") #, fontSize = 20)
+               )) %>%
+      add_axis("y", title = "Absolutní frekvence", title_offset = 50)
   }) %>% bind_shiny("freq")
 })
