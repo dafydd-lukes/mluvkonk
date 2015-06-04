@@ -93,3 +93,10 @@ Unless you speak Czech and/or do research on Czech (in which case, the Czech
 instructions are right [here](#navod)), it is unlikely to be of much use to you.
 If you're interested in the [Shiny](http://shiny.rstudio.com/) side of things
 though, [drop me a line on github](https://github.com/dlukes/)!
+
+# License
+
+Copyright © 2015 David Lukeš
+
+Distributed under the
+[GNU General Public License v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
