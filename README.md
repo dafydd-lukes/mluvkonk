@@ -1,3 +1,5 @@
+Made with [Shiny](http://shiny.rstudio.com) from [RStudio](http://rstudio.com).
+
 Skip [here](#english) for English. If reading this on github, the app is live
 [here](http://trost.korpus.cz/shiny/lukes/mluvkonk).
 
