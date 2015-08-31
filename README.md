@@ -78,7 +78,9 @@ Desítky tisíc výskytů stejně není v lidských silách pečlivě ručně pr
 Pokud narazíte na problémy, kontaktujte prosím
 [autora](https://trnka.korpus.cz/~lukes).
 
-# <a name="english"></a> English
+# English
+
+<a name="english"></a> 
 
 MluvKonk is a tool for converting [CNC](http://korpus.cz) spoken corpus
 concordances into a more user-friendly viewing format than that offered by the
