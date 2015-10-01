@@ -43,6 +43,8 @@ collapse_adjacent <- function(vector, only = c(), max = 2) {
 
 concLine2Html <- function(conc_row) {
 #   print(conc_row)
+  # fix numbered references to speakers (e.g. <4>)
+  conc_row <- gsub("<(\\d+)>", "&lt;\\1&gt;", conc_row)
   # wrap attr values with quotes
   conc_row <- gsub("=([^ >]*)", '="\\1"', conc_row)
   # if the row does not start with a <sp> tag, add one; its prekryv value is
