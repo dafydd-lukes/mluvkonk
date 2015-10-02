@@ -6,10 +6,11 @@ Skip [here](#english) for English. If reading this on github, the app is live
 # Shrnutí
 
 Nástroj MluvKonk slouží k tomu, abyste si konkordance z mluvených korpusů
-[ČNK](http://korpus.cz) řady [ORAL](http://wiki.korpus.cz/doku.php/cnk:oral2013)
-vytvořené pomocí rozhraní [KonText](https://kontext.korpus.cz) mohli zobrazit ve
-formátu, který intuitivněji a přehledněji naznačuje strukturu dialogu (střídání
-mluvčích, překryvy atp.) než konkordance přímo v KonTextu.
+[ČNK](http://korpus.cz) řady
+[ORAL](http://wiki.korpus.cz/doku.php/kurz:hledani_v_mluvenych_korpusech)
+vytvořené pomocí rozhraní [KonText](https://kontext.korpus.cz) mohli zobrazit
+ve formátu, který intuitivněji a přehledněji naznačuje strukturu dialogu
+(střídání mluvčích, překryvy atp.) než konkordance přímo v KonTextu.
 
 Obrázek napoví víc -- úlohou MluvKonku je změnit toto...
 
@@ -67,13 +68,16 @@ v samostatné vrstvě s číslem mluvčího `??`. Jestli je mluvčí `??` totož
 s nějakým ze známých mluvčích musí už uživatel rozhodnout sám na základě obsahu
 (např. tématická či přímo syntaktická návaznost úseků).
 
-MluvKonk je zatím spíš na hraní, když mu dáte příliš velkou konkordanci (desítky
-tisíc výskytů), bude mu chvíli trvat, než si s ní poradí, a pokud soubor
-přesáhne jistou velikost, nenahraje ji vůbec. Snažte se tedy před nahráním
-konkordanci pečlivě
+MluvKonk je zatím spíš na hraní, když mu dáte příliš velkou konkordanci
+(desítky tisíc výskytů), bude mu chvíli trvat, než si s ní poradí, a pokud
+soubor přesáhne jistou velikost, nenahraje ji vůbec. Snažte se tedy před
+nahráním konkordanci pečlivě
 [profiltrovat](http://wiki.korpus.cz/doku.php/manualy:kontext:filtr), aby v ní
-bylo skutečně jen to, co vás zajímá, nebo jednoduše kus souboru `.csv` umazat.
-Desítky tisíc výskytů stejně není v lidských silách pečlivě ručně projít.
+bylo skutečně jen to, co vás zajímá, vybrat z ní pomocí KonTextu jen menší
+[náhodný
+vzorek](http://wiki.korpus.cz/doku.php/manualy:kontext:konkordance?s[]=vzorek#vzorek),
+nebo jednoduše kus souboru `.csv` umazat.  Desítky tisíc výskytů stejně není v
+lidských silách pečlivě ručně projít.
 
 Pokud narazíte na problémy, kontaktujte prosím
 [autora](https://trnka.korpus.cz/~lukes).
