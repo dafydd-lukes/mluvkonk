@@ -103,7 +103,7 @@ shinyServer(function(input, output, session) {
 
   output$konk <- renderTable(
     {
-      p <- input$page
+      p <- as.integer(input$page)
       np <- data()$npages
       validate(need(is.integer(p) && p > 0 && p <= np,
                     sprintf("Jako stranu zvolte prosím celé číslo v rozmezí %d až %d.", 1, np)))
